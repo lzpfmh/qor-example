@@ -1,31 +1,27 @@
 package bindata
 
-import (
-	"github.com/qor/admin"
-	"github.com/qor/admin/bindata"
-)
+import "github.com/qor/admin/bindata"
 
 type Bindata struct {
-	bindata.Bindata
+	Path string
+	*bindata.Bindata
 }
 
-type Config struct {
-}
+var AssetFS *Bindata
 
-func New(config *Config) *Bindata {
-	// config/admin/bindata
-	return &Bindata{Bindata: {AssetFileSystem: &admin.AssetFileSystem{}, Config: config}}
+func init() {
+	AssetFS = &Bindata{Bindata: bindata.New(), Path: "config/admin/bindata"}
 }
 
 func (bindata *Bindata) Asset(name string) ([]byte, error) {
-	return bindata.AssetFileSystem.Asset(name)
+	return bindata.Bindata.AssetFileSystem.Asset(name)
 }
 
 func (bindata *Bindata) Glob(pattern string) (matches []string, err error) {
-	return bindata.AssetFileSystem.Glob(name)
+	return bindata.Bindata.AssetFileSystem.Glob(pattern)
 }
 
 func (bindata *Bindata) Compile() error {
-	bindata
-	return bindata.AssetFileSystem.Compile()
+	bindata.Bindata.CopyFiles("")
+	return bindata.Bindata.AssetFileSystem.Compile()
 }
