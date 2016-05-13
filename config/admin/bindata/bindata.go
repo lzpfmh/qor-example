@@ -1,6 +1,10 @@
 package bindata
 
-import "github.com/qor/admin/bindata"
+import (
+	"path/filepath"
+
+	"github.com/qor/admin/bindata"
+)
 
 type Bindata struct {
 	Path string
@@ -13,15 +17,27 @@ func init() {
 	AssetFS = &Bindata{Bindata: bindata.New(), Path: "config/admin/bindata"}
 }
 
-func (bindata *Bindata) Asset(name string) ([]byte, error) {
-	return bindata.Bindata.AssetFileSystem.Asset(name)
+func (assetFS *Bindata) Asset(name string) ([]byte, error) {
+	if len(_bindata) > 0 {
+		return Asset(name)
+	}
+	return assetFS.Bindata.AssetFileSystem.Asset(name)
 }
 
-func (bindata *Bindata) Glob(pattern string) (matches []string, err error) {
-	return bindata.Bindata.AssetFileSystem.Glob(pattern)
+func (assetFS *Bindata) Glob(pattern string) (matches []string, err error) {
+	if len(_bindata) > 0 {
+		for key, _ := range _bindata {
+			if filepath.Match(pattern, key) {
+				matches = append(matches, key)
+			}
+		}
+		return matches
+	}
+
+	return assetFS.Bindata.AssetFileSystem.Glob(pattern)
 }
 
-func (bindata *Bindata) Compile() error {
-	bindata.Bindata.CopyFiles("")
-	return bindata.Bindata.AssetFileSystem.Compile()
+func (assetFS *Bindata) Compile() error {
+	assetFS.Bindata.CopyFiles(assetFS.Path)
+	return assetFS.Bindata.AssetFileSystem.Compile()
 }
