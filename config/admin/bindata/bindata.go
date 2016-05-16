@@ -2,6 +2,7 @@ package bindata
 
 import (
 	"path/filepath"
+	"strings"
 
 	gobindata "github.com/jteeuwen/go-bindata"
 	"github.com/qor/admin/bindata"
@@ -19,6 +20,7 @@ func init() {
 }
 
 func (assetFS *Bindata) Asset(name string) ([]byte, error) {
+	name = strings.TrimPrefix(name, "/")
 	if len(_bindata) > 0 {
 		return Asset(name)
 	}
