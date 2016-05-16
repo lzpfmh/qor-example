@@ -38,6 +38,6 @@ func (assetFS *Bindata) Glob(pattern string) (matches []string, err error) {
 }
 
 func (assetFS *Bindata) Compile() error {
-	assetFS.Bindata.CopyFiles(assetFS.Path)
+	assetFS.Bindata.CopyFiles(filepath.Join(assetFS.Path, "templates"))
 	return nil
 }
