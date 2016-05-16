@@ -49,7 +49,7 @@ func (assetFS *Bindata) Compile() error {
 	config.Package = "bindata"
 	config.Tags = "bindata"
 	config.Output = filepath.Join(assetFS.Path, "templates_bindata.go")
-	config.Prefix = assetFS.Path
+	config.Prefix = filepath.Join(assetFS.Path, "templates")
 
 	return gobindata.Translate(config)
 }
