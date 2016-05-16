@@ -42,10 +42,10 @@ func (assetFS *Bindata) Compile() error {
 	assetFS.Bindata.CopyFiles(filepath.Join(assetFS.Path, "templates"))
 
 	config := gobindata.NewConfig()
-	config.Input = []gobindata.InputConfig{
+	config.Input = []gobindata.InputConfig{{
 		Path:      filepath.Join(assetFS.Path, "templates"),
 		Recursive: true,
-	}
+	}}
 	config.Package = "bindata"
 	config.Tags = "bindata"
 	config.Output = filepath.Join(assetFS.Path, "templates_bindata.go")

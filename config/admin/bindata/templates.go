@@ -1,4 +1,5 @@
-// -build bindata
+// +build !bindata
+
 package bindata
 
 import "fmt"
